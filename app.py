@@ -101,6 +101,16 @@ elif st.session_state.page == "roadmap":
     st.write(f"Based on your answers, here is what we recommend for you, {st.session_state.user_name}:")
     st.write("")
 
+    # Skill confidence chart
+    st.subheader("Your Skill Confidence Overview")
+    import pandas as pd
+    chart_data = pd.DataFrame({
+        "Skill": [s["label"] for s in st.session_state.roadmap],
+        "Confidence (%)": [int(s["current_score"] * 100) for s in st.session_state.roadmap]
+    })
+    st.bar_chart(chart_data.set_index("Skill"))
+    st.write("")
+
     if not st.session_state.roadmap:
         st.success("You have already mastered all the skills. Well done!")
     else:
@@ -166,4 +176,3 @@ elif st.session_state.page == "progress":
     if st.button("Back to Home"):
         st.session_state.page = "home"
         st.rerun()
-        
